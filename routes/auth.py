@@ -98,12 +98,17 @@ def login():
                 'refresh_token': refresh_token
             }, 'Login successful')
         else:
-            # Store tokens in session
+            # Store tokens and user info in session
             session['access_token'] = access_token
             session['refresh_token'] = refresh_token
             session['user_id'] = str(user['_id'])
+            session['user_role'] = user['role_id']
             
-            return redirect(url_for('auth.dashboard'))
+            # Redirect based on role
+            if user['role_id'] == 'admin':
+                return redirect(url_for('admin.index'))
+            else:
+                return redirect(url_for('auth.dashboard'))
 
 @auth_bp.route('/logout', methods=['GET', 'POST'])
 def logout():
@@ -112,6 +117,7 @@ def logout():
     session.pop('access_token', None)
     session.pop('refresh_token', None)
     session.pop('user_id', None)
+    session.pop('user_role', None)
     
     return redirect(url_for('index'))
 
@@ -179,6 +185,7 @@ def dashboard():
         session.pop('access_token', None)
         session.pop('refresh_token', None)
         session.pop('user_id', None)
+        session.pop('user_role', None)
         return redirect(url_for('auth.login'))
     
     # Render dashboard
