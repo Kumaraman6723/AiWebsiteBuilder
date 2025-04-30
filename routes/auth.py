@@ -57,6 +57,7 @@ def register():
             session['access_token'] = access_token
             session['refresh_token'] = refresh_token
             session['user_id'] = str(user['_id'])
+            session['user_role'] = user['role_id']
             
             return redirect(url_for('auth.dashboard'))
 

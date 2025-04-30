@@ -114,7 +114,22 @@ def session_permission_required(permission):
             if 'user_id' in session:
                 user = User.get_by_id(session['user_id'])
                 if user:
-                    # Check permission
+                    # Admin user has all permissions
+                    if user['role_id'] == 'admin':
+                        g.user = user
+                        return f(*args, **kwargs)
+                    
+                    # For editor's permissions
+                    if user['role_id'] == 'editor' and permission in ['website:read', 'website:write']:
+                        g.user = user
+                        return f(*args, **kwargs)
+                    
+                    # For viewer's permissions
+                    if user['role_id'] == 'viewer' and permission == 'website:read':
+                        g.user = user
+                        return f(*args, **kwargs)
+                    
+                    # For other users, check specific permissions
                     if has_permission(user, permission):
                         g.user = user
                         return f(*args, **kwargs)
@@ -130,12 +145,27 @@ def session_permission_required(permission):
                 if not user:
                     return get_error_response("User not found", 404)
                 
-                # Check permission
-                if not has_permission(user, permission):
-                    return get_error_response("Permission denied", 403)
+                # Admin user has all permissions
+                if user['role_id'] == 'admin':
+                    g.user = user
+                    return f(*args, **kwargs)
                 
-                g.user = user
-                return f(*args, **kwargs)
+                # For editor's permissions
+                if user['role_id'] == 'editor' and permission in ['website:read', 'website:write']:
+                    g.user = user
+                    return f(*args, **kwargs)
+                
+                # For viewer's permissions
+                if user['role_id'] == 'viewer' and permission == 'website:read':
+                    g.user = user
+                    return f(*args, **kwargs)
+                
+                # For other users, check specific permissions
+                if has_permission(user, permission):
+                    g.user = user
+                    return f(*args, **kwargs)
+                else:
+                    return get_error_response("Permission denied", 403)
             except Exception as e:
                 return get_error_response("Authentication required", 401)
         return decorated_function
@@ -149,20 +179,42 @@ def admin_required():
             # First check if user is admin via session
             if 'user_id' in session and 'user_role' in session:
                 if session['user_role'] == 'admin':
+                    # Get user for context
+                    user = User.get_by_id(session['user_id'])
+                    if user:
+                        g.user = user
+                    return f(*args, **kwargs)
+            # If user_role not explicitly in session, but user_id is, try to fetch user
+            elif 'user_id' in session:
+                user = User.get_by_id(session['user_id'])
+                if user and user['role_id'] == 'admin':
+                    g.user = user
+                    # Update session with role
+                    session['user_role'] = 'admin'
                     return f(*args, **kwargs)
             
             # If not in session, try JWT
             try:
                 verify_jwt_in_request()
                 
-                # Get claims from JWT
+                # Get user identity and claims from JWT
+                jwt_identity = get_jwt_identity()
                 claims = get_jwt()
                 
-                # Check if user is admin
-                if claims.get("role") != "admin":
-                    return get_error_response("Admin access required", 403)
+                # If role claim exists and is admin
+                if claims.get("role") == "admin":
+                    user = User.get_by_id(jwt_identity)
+                    if user:
+                        g.user = user
+                    return f(*args, **kwargs)
                 
-                return f(*args, **kwargs)
+                # If no role in claims, check directly from database
+                user = User.get_by_id(jwt_identity)
+                if user and user['role_id'] == 'admin':
+                    g.user = user
+                    return f(*args, **kwargs)
+                    
+                return get_error_response("Admin access required", 403)
             except Exception as e:
                 return get_error_response("Authentication required", 401)
         return decorated_function

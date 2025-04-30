@@ -13,7 +13,8 @@ def init_db():
     """Initialize database connection"""
     global client, db
     try:
-        client = MongoClient(config.MONGO_URI)
+        mongo_uri = os.environ.get("MONGO_URI", config.MONGO_URI)
+        client = MongoClient(mongo_uri)
         db = client[config.DATABASE_NAME]
         
         # Test connection
@@ -24,8 +25,8 @@ def init_db():
         init_roles()
         
         return db
-    except ConnectionFailure:
-        logging.error("MongoDB connection failed")
+    except ConnectionFailure as e:
+        logging.error(f"MongoDB connection failed: {str(e)}")
         raise
 
 def init_roles():
