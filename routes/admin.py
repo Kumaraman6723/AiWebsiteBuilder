@@ -40,7 +40,9 @@ def get_users():
     else:
         # Get roles for dropdown
         roles = Role.get_all()
-        return render_template('admin/users.html', users=users, roles=roles)
+        # Get current user for navigation
+        current_user = User.get_by_id(session['user_id'])
+        return render_template('admin/users.html', users=users, roles=roles, user=current_user)
 
 @admin_bp.route('/users/<user_id>', methods=['GET', 'PUT', 'DELETE'])
 @admin_required()
@@ -116,7 +118,9 @@ def roles():
         else:
             # Get available permissions
             permissions = Role.get_permissions()
-            return render_template('admin/roles.html', roles=roles, permissions=permissions)
+            # Get current user for navigation
+            current_user = User.get_by_id(session['user_id'])
+            return render_template('admin/roles.html', roles=roles, permissions=permissions, user=current_user)
     
     if request.method == 'POST':
         # Get form data
