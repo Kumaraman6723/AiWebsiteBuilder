@@ -87,18 +87,23 @@ class User:
         """
         users = get_collection('users')
         
-        # Convert string ID to ObjectId
-        if isinstance(user_id, str):
-            user_id = ObjectId(user_id)
+        # Convert string ID to ObjectId, handle potential errors
+        try:
+            if isinstance(user_id, str):
+                user_id = ObjectId(user_id)
+                
+            # Find user by ID
+            user = users.find_one({"_id": user_id})
             
-        # Find user by ID
-        user = users.find_one({"_id": user_id})
-        
-        if user:
-            # Don't return password
-            user_copy = dict(user)
-            user_copy.pop("password")
-            return serialize_doc(user_copy)
+            if user:
+                # Don't return password
+                user_copy = dict(user)
+                user_copy.pop("password")
+                return serialize_doc(user_copy)
+        except Exception as e:
+            # Log the error but don't crash
+            print(f"Error in get_by_id: {str(e)}")
+            return None
             
         return None
     
