@@ -136,17 +136,17 @@ def edit_website(website_id):
     if not website:
         return get_error_response('Website not found', 404)
     
-    # Get user identity
-    identity = get_jwt_identity()
-    
-    # Get user from database
-    user = User.get_by_id(identity)
+    # Check for user in g (set by session_permission_required decorator)
+    user = g.user
     
     if not user:
         return get_error_response('User not found', 404)
+        
+    # Get user ID from user object
+    user_id = str(user['_id'])
     
     # Check if user has access to edit this website
-    if user['role_id'] != 'admin' and str(website['user_id']) != identity:
+    if user['role_id'] != 'admin' and str(website['user_id']) != user_id:
         return get_error_response('Access denied', 403)
     
     if request.method == 'GET':
@@ -174,17 +174,17 @@ def delete_website(website_id):
     if not website:
         return get_error_response('Website not found', 404)
     
-    # Get user identity
-    identity = get_jwt_identity()
-    
-    # Get user from database
-    user = User.get_by_id(identity)
+    # Check for user in g (set by session_permission_required decorator)
+    user = g.user
     
     if not user:
         return get_error_response('User not found', 404)
+        
+    # Get user ID from user object
+    user_id = str(user['_id'])
     
     # Check if user has access to delete this website
-    if user['role_id'] != 'admin' and str(website['user_id']) != identity:
+    if user['role_id'] != 'admin' and str(website['user_id']) != user_id:
         return get_error_response('Access denied', 403)
     
     # Delete website
@@ -205,17 +205,17 @@ def preview_website(website_id):
     if not website:
         return get_error_response('Website not found', 404)
     
-    # Get user identity
-    identity = get_jwt_identity()
-    
-    # Get user from database
-    user = User.get_by_id(identity)
+    # Check for user in g (set by session_permission_required decorator)
+    user = g.user
     
     if not user:
         return get_error_response('User not found', 404)
+        
+    # Get user ID from user object
+    user_id = str(user['_id'])
     
     # Check if user has access to preview this website
-    if user['role_id'] != 'admin' and str(website['user_id']) != identity:
+    if user['role_id'] != 'admin' and str(website['user_id']) != user_id:
         return get_error_response('Access denied', 403)
     
     # Render website preview
@@ -231,17 +231,17 @@ def update_website_status(website_id):
     if not website:
         return get_error_response('Website not found', 404)
     
-    # Get user identity
-    identity = get_jwt_identity()
-    
-    # Get user from database
-    user = User.get_by_id(identity)
+    # Check for user in g (set by session_permission_required decorator)
+    user = g.user
     
     if not user:
         return get_error_response('User not found', 404)
+        
+    # Get user ID from user object
+    user_id = str(user['_id'])
     
     # Check if user has access to update this website
-    if user['role_id'] != 'admin' and str(website['user_id']) != identity:
+    if user['role_id'] != 'admin' and str(website['user_id']) != user_id:
         return get_error_response('Access denied', 403)
     
     # Get form data
@@ -269,17 +269,17 @@ def regenerate_content(website_id):
     if not website:
         return get_error_response('Website not found', 404)
     
-    # Get user identity
-    identity = get_jwt_identity()
-    
-    # Get user from database
-    user = User.get_by_id(identity)
+    # Check for user in g (set by session_permission_required decorator)
+    user = g.user
     
     if not user:
         return get_error_response('User not found', 404)
+        
+    # Get user ID from user object
+    user_id = str(user['_id'])
     
     # Check if user has access to update this website
-    if user['role_id'] != 'admin' and str(website['user_id']) != identity:
+    if user['role_id'] != 'admin' and str(website['user_id']) != user_id:
         return get_error_response('Access denied', 403)
     
     # Get form data
