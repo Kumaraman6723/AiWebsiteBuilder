@@ -58,7 +58,7 @@ def register():
             session['refresh_token'] = refresh_token
             session['user_id'] = str(user['_id'])
             
-            return redirect(url_for('dashboard'))
+            return redirect(url_for('auth.dashboard'))
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -103,7 +103,7 @@ def login():
             session['refresh_token'] = refresh_token
             session['user_id'] = str(user['_id'])
             
-            return redirect(url_for('dashboard'))
+            return redirect(url_for('auth.dashboard'))
 
 @auth_bp.route('/logout', methods=['GET', 'POST'])
 def logout():
