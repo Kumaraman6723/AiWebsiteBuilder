@@ -14,14 +14,14 @@ website_bp = Blueprint('website', __name__)
 @session_permission_required('website:read')
 def get_websites():
     """Get all websites for current user endpoint"""
-    # Get user identity
-    identity = get_jwt_identity()
-    
-    # Get user from database
-    user = User.get_by_id(identity)
+    # Check for user in g (set by session_permission_required decorator)
+    user = g.user
     
     if not user:
         return get_error_response('User not found', 404)
+    
+    # Get user ID from user object
+    user_id = str(user['_id'])
     
     # Get websites based on role
     if user['role_id'] == 'admin':
@@ -29,7 +29,7 @@ def get_websites():
         websites = Website.get_all()
     else:
         # Other users can only see their own websites
-        websites = Website.get_by_user(identity)
+        websites = Website.get_by_user(user_id)
     
     if request.is_json:
         return get_success_response({'websites': websites})
@@ -40,14 +40,14 @@ def get_websites():
 @session_permission_required('website:write')
 def create_website():
     """Create website endpoint"""
-    # Get user identity
-    identity = get_jwt_identity()
-    
-    # Get user from database
-    user = User.get_by_id(identity)
+    # Check for user in g (set by session_permission_required decorator)
+    user = g.user
     
     if not user:
         return get_error_response('User not found', 404)
+        
+    # Get user ID from user object
+    user_id = str(user['_id'])
     
     if request.method == 'GET':
         return render_template('website/create.html', user=user)
@@ -85,7 +85,7 @@ def create_website():
             
             # Create website
             website = Website.create(
-                user_id=identity,
+                user_id=user_id,
                 title=title,
                 content=content
             )
@@ -111,23 +111,23 @@ def get_website(website_id):
     if not website:
         return get_error_response('Website not found', 404)
     
-    # Get user identity
-    identity = get_jwt_identity()
-    
-    # Get user from database
-    user = User.get_by_id(identity)
+    # Check for user in g (set by session_permission_required decorator)
+    user = g.user
     
     if not user:
         return get_error_response('User not found', 404)
+        
+    # Get user ID from user object
+    user_id = str(user['_id'])
     
     # Check if user has access to this website
-    if user['role_id'] != 'admin' and str(website['user_id']) != identity:
+    if user['role_id'] != 'admin' and str(website['user_id']) != user_id:
         return get_error_response('Access denied', 403)
     
     return get_success_response({'website': website})
 
 @website_bp.route('/<website_id>/edit', methods=['GET', 'PUT'])
-@permission_required('website:write')
+@session_permission_required('website:write')
 def edit_website(website_id):
     """Edit website endpoint"""
     # Get website
@@ -165,7 +165,7 @@ def edit_website(website_id):
         return get_success_response({'website': updated_website}, 'Website updated successfully')
 
 @website_bp.route('/<website_id>', methods=['DELETE'])
-@permission_required('website:delete')
+@session_permission_required('website:delete')
 def delete_website(website_id):
     """Delete website endpoint"""
     # Get website
@@ -196,7 +196,7 @@ def delete_website(website_id):
     return get_success_response({}, 'Website deleted successfully')
 
 @website_bp.route('/<website_id>/preview', methods=['GET'])
-@permission_required('website:read')
+@session_permission_required('website:read')
 def preview_website(website_id):
     """Preview website endpoint"""
     # Get website
@@ -222,7 +222,7 @@ def preview_website(website_id):
     return render_template('website/preview.html', website=website, user=user)
 
 @website_bp.route('/<website_id>/status', methods=['PUT'])
-@permission_required('website:write')
+@session_permission_required('website:write')
 def update_website_status(website_id):
     """Update website status endpoint"""
     # Get website
@@ -260,7 +260,7 @@ def update_website_status(website_id):
     return get_success_response({'website': updated_website}, 'Website status updated successfully')
 
 @website_bp.route('/<website_id>/regenerate', methods=['POST'])
-@permission_required('website:write')
+@session_permission_required('website:write')
 def regenerate_content(website_id):
     """Regenerate website content endpoint"""
     # Get website
