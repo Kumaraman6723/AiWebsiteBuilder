@@ -4,14 +4,14 @@ from bson import ObjectId
 from models.user import User
 from models.website import Website
 from utils import get_error_response, get_success_response
-from middlewares import permission_required
+from middlewares import permission_required, session_permission_required, session_or_jwt_required
 from ai_service import generate_website_content, suggest_color_scheme
 
 # Create blueprint
 website_bp = Blueprint('website', __name__)
 
 @website_bp.route('/', methods=['GET'])
-@permission_required('website:read')
+@session_permission_required('website:read')
 def get_websites():
     """Get all websites for current user endpoint"""
     # Get user identity
@@ -37,7 +37,7 @@ def get_websites():
         return render_template('website/list.html', websites=websites, user=user)
 
 @website_bp.route('/create', methods=['GET', 'POST'])
-@permission_required('website:write')
+@session_permission_required('website:write')
 def create_website():
     """Create website endpoint"""
     # Get user identity
@@ -102,7 +102,7 @@ def create_website():
             return get_error_response(f'Failed to generate website content: {str(e)}')
 
 @website_bp.route('/<website_id>', methods=['GET'])
-@permission_required('website:read')
+@session_permission_required('website:read')
 def get_website(website_id):
     """Get website by ID endpoint"""
     # Get website
