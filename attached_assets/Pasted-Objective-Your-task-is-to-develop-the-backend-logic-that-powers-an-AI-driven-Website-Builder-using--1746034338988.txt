@@ -1,0 +1,59 @@
+Objective: Your task is to develop the backend logic that powers an AI-driven Website Builder using Python (Flask/Django) and MongoDB.
+Additionally, you must implement a Role-Based Access Control (ACL) system to manage user permissions via an Admin Interface.
+You will demonstrate the backend functionality by integrating it with any simple sample frontend website template available online (HTML/CSS-based) to simulate dynamic content rendering.
+Requirements:
+User Authentication:
+Implement Sign-Up/Login functionality using Email.
+Use JWT-based authentication for secure API access.
+
+
+Role-Based Access Control (ACL):
+Create Roles: (Admin, Editor, Viewer)
+Permissions must be defined per role:
+Admin – Full CRUD access to websites and users (manage everything)
+Editor – Can create/edit their own websites but not manage users
+Viewer – Can only view websites, no edit permissions
+Implement a Role & Permission Management Admin Interface:
+Admin can create/update/delete roles
+Admin can assign roles to users
+Admin can define what APIs/resources each role can access
+Middleware to enforce permissions for each API route.
+
+AI-Powered Website Generation:
+Create an API that accepts user inputs like business type and industry.
+Use OpenAI API (or any alternative text-generation model) to generate basic content (hero text, about section, services, etc.).
+Generate a basic JSON structure representing the website layout and content.
+Store the generated data in MongoDB.
+
+
+Website Management APIs:
+CRUD operations for websites: Create, Read (by ID), Update, Delete websites
+Edit APIs: API to save user-edited content (text, images, layout updates)
+Retrieve APIs: API to fetch website data by ID for front-end rendering
+Permissions enforced based on role:
+Only Admins or Editors can edit/create
+Viewers can only read data (no edit/delete)
+
+Hosting & Preview Feature:
+Select any free HTML/CSS website template (from sources like HTML5 UP, BootstrapMade, Colorlib, etc.)
+Create a route (e.g., /preview/:id) where the selected template is dynamically populated with data from the backend (title, content, images).
+This serves as a live preview simulation using the generated content.
+
+
+Technology to Use:
+Python (Flask/Django) – Backend Framework
+MongoDB – Database
+OpenAI API (or alternative text generation model) – Content generation
+JWT Authentication – User authentication
+Role-Based Access Control (ACL) – User access management
+Admin Panel – For Role & Permission management (can be simple UI or basic CRUD via APIs)
+
+
+Bonus (Optional):
+API rate-limiting and security best practices
+Caching for faster response times
+Evaluation Criteria:
+✅ API Functionality – Proper handling of requests, responses, and errors.
+ ✅ Database Structure – Efficient MongoDB schema design.
+ ✅ Scalability – Ability to handle multiple users.
+ ✅ Security – Authentication and data protection.
