@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - AI Website Builder</title>
+    <link rel="stylesheet" href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="d-flex vh-100">
+        <!-- Sidebar -->
+        {% include 'components/sidebar.html' %}
+
+        <div class="flex-grow-1 d-flex flex-column overflow-hidden">
+            <!-- Header -->
+            <header class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom">
+                <div class="container-fluid">
+                    <button class="btn btn-link d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar" aria-expanded="false">
+                        <i class="bi bi-list fs-5"></i>
+                    </button>
+                    <span class="navbar-brand ms-2">Admin Dashboard</span>
+                    <div class="ms-auto d-flex align-items-center">
+                        <div class="dropdown">
+                            <button class="btn btn-link text-decoration-none dropdown-toggle d-flex align-items-center" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-circle me-2 fs-5"></i>
+                                <span>{{ user.name }}</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                <li><h6 class="dropdown-header">{{ user.email }}</h6></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i> Profile</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <main class="flex-grow-1 overflow-auto p-4">
+                <div class="container-fluid">
+                    <!-- Page Title -->
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h1 class="h3">Admin Dashboard</h1>
+                        <div>
+                            <a href="{{ url_for('auth.dashboard') }}" class="btn btn-outline-secondary me-2">
+                                <i class="bi bi-house me-2"></i> Back to Dashboard
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Admin Cards -->
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <div class="mb-3">
+                                        <i class="bi bi-people-fill fs-1 text-primary"></i>
+                                    </div>
+                                    <h5 class="card-title">User Management</h5>
+                                    <p class="card-text text-muted">Manage users, assign roles, and control access.</p>
+                                    <a href="{{ url_for('admin.get_users') }}" class="btn btn-primary">Manage Users</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <div class="mb-3">
+                                        <i class="bi bi-shield-lock-fill fs-1 text-success"></i>
+                                    </div>
+                                    <h5 class="card-title">Role Management</h5>
+                                    <p class="card-text text-muted">Create, edit, and assign permissions to roles.</p>
+                                    <a href="{{ url_for('admin.roles') }}" class="btn btn-success">Manage Roles</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <div class="mb-3">
+                                        <i class="bi bi-globe fs-1 text-info"></i>
+                                    </div>
+                                    <h5 class="card-title">Website Management</h5>
+                                    <p class="card-text text-muted">View and manage all websites in the system.</p>
+                                    <a href="{{ url_for('website.get_websites') }}" class="btn btn-info">Manage Websites</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- System Overview -->
+                    <div class="row g-4">
+                        <div class="col-md-8">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <h5 class="mb-0">System Overview</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-4">
+                                                <h6 class="text-muted fw-normal mb-2">Total Users</h6>
+                                                <h3 class="mb-0" id="totalUsers">-</h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-4">
+                                                <h6 class="text-muted fw-normal mb-2">Total Websites</h6>
+                                                <h3 class="mb-0" id="totalWebsites">-</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-4">
+                                                <h6 class="text-muted fw-normal mb-2">User Roles Distribution</h6>
+                                                <div class="progress mb-2" style="height: 10px;">
+                                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 0%;" id="adminProgress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <div class="d-flex justify-content-between">
+                                                    <span class="text-muted">Admins: <span id="adminCount">-</span></span>
+                                                    <span class="text-muted">Editors: <span id="editorCount">-</span></span>
+                                                    <span class="text-muted">Viewers: <span id="viewerCount">-</span></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-4">
+                                                <h6 class="text-muted fw-normal mb-2">Website Status Distribution</h6>
+                                                <div class="progress mb-2" style="height: 10px;">
+                                                    <div class="progress-bar bg-success" role="progressbar" style="width: 0%;" id="publishedProgress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <div class="d-flex justify-content-between">
+                                                    <span class="text-muted">Published: <span id="publishedCount">-</span></span>
+                                                    <span class="text-muted">Drafts: <span id="draftCount">-</span></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Quick Actions</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-grid gap-3">
+                                        <a href="{{ url_for('admin.get_users') }}" class="btn btn-outline-primary">
+                                            <i class="bi bi-person-plus me-2"></i> Add New User
+                                        </a>
+                                        <a href="{{ url_for('admin.roles') }}" class="btn btn-outline-success">
+                                            <i class="bi bi-shield-plus me-2"></i> Add New Role
+                                        </a>
+                                        <a href="{{ url_for('website.create_website') }}" class="btn btn-outline-info">
+                                            <i class="bi bi-plus-lg me-2"></i> Create Website
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Footer -->
+            <footer class="bg-dark text-center text-white-50 py-3 border-top">
+                <div class="container-fluid">
+                    <p class="mb-0">© 2023 AI Website Builder. All rights reserved.</p>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fetch users data
+            axios.get('/admin/users', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${sessionStorage.getItem('accessToken')}`
+                }
+            })
+            .then(function(response) {
+                const users = response.data.data.users;
+                updateUserStats(users);
+            })
+            .catch(function(error) {
+                console.error('Error fetching users:', error);
+            });
+            
+            // Fetch websites data
+            axios.get('/website/', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${sessionStorage.getItem('accessToken')}`
+                }
+            })
+            .then(function(response) {
+                const websites = response.data.data.websites;
+                updateWebsiteStats(websites);
+            })
+            .catch(function(error) {
+                console.error('Error fetching websites:', error);
+            });
+            
+            // Update user statistics
+            function updateUserStats(users) {
+                const totalUsers = users.length;
+                const adminUsers = users.filter(user => user.role_id === 'admin').length;
+                const editorUsers = users.filter(user => user.role_id === 'editor').length;
+                const viewerUsers = users.filter(user => user.role_id === 'viewer').length;
+                
+                document.getElementById('totalUsers').textContent = totalUsers;
+                document.getElementById('adminCount').textContent = adminUsers;
+                document.getElementById('editorCount').textContent = editorUsers;
+                document.getElementById('viewerCount').textContent = viewerUsers;
+                
+                // Update progress bar
+                const adminPercentage = totalUsers > 0 ? (adminUsers / totalUsers * 100) : 0;
+                document.getElementById('adminProgress').style.width = `${adminPercentage}%`;
+            }
+            
+            // Update website statistics
+            function updateWebsiteStats(websites) {
+                const totalWebsites = websites.length;
+                const publishedWebsites = websites.filter(website => website.status === 'published').length;
+                const draftWebsites = websites.filter(website => website.status === 'draft').length;
+                
+                document.getElementById('totalWebsites').textContent = totalWebsites;
+                document.getElementById('publishedCount').textContent = publishedWebsites;
+                document.getElementById('draftCount').textContent = draftWebsites;
+                
+                // Update progress bar
+                const publishedPercentage = totalWebsites > 0 ? (publishedWebsites / totalWebsites * 100) : 0;
+                document.getElementById('publishedProgress').style.width = `${publishedPercentage}%`;
+            }
+        });
+    </script>
+</body>
+</html>

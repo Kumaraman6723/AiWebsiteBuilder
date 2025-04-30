@@ -1,0 +1,302 @@
+/**
+ * Main styles for AI Website Builder
+ */
+
+/* General styling */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+/* Sidebar styling */
+.sidebar {
+    min-width: 250px;
+    min-height: 100vh;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    z-index: 100;
+    padding: 0;
+}
+
+.sidebar .nav-link {
+    padding: 0.75rem 1.25rem;
+    color: rgba(255, 255, 255, 0.8);
+    border-radius: 0.25rem;
+    margin: 0 0.5rem;
+}
+
+.sidebar .nav-link:hover {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar .nav-link.active {
+    color: #fff;
+    background-color: var(--bs-primary);
+}
+
+.sidebar-heading {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+}
+
+/* Header styling */
+.navbar-brand {
+    font-weight: 600;
+}
+
+/* Main content area */
+.content-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Card styling */
+.card {
+    border: none;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    margin-bottom: 1.5rem;
+}
+
+.card-header {
+    background-color: transparent;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    padding: 1rem 1.25rem;
+}
+
+/* Button styling */
+.btn {
+    font-weight: 500;
+}
+
+.btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-icon i {
+    margin-right: 0.5rem;
+}
+
+/* Form styling */
+.form-control:focus, .form-select:focus {
+    border-color: var(--bs-primary);
+    box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
+}
+
+.form-control-color {
+    min-width: 3rem;
+}
+
+/* Website builder specifics */
+.color-preview {
+    border: 1px solid #ccc;
+    min-height: 200px;
+}
+
+.website-preview {
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    overflow: hidden;
+}
+
+.section-toggle {
+    transition: all 0.2s;
+}
+
+.section-toggle[aria-expanded="true"] i {
+    transform: rotate(180deg);
+}
+
+/* Dashboard stats */
+.stats-card {
+    position: relative;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.stats-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
+    z-index: -1;
+}
+
+.stats-card .icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Toast notifications */
+.toast-container {
+    z-index: 1100;
+}
+
+/* Table styling */
+.table > :not(caption) > * > * {
+    padding: 0.75rem 1rem;
+}
+
+/* Custom switch toggle */
+.form-switch .form-check-input {
+    height: 1.25rem;
+    width: 2.25rem;
+}
+
+/* Website preview mode buttons */
+.preview-mode-toggle {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+}
+
+/* Loading spinner */
+.spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.spinner-content {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    text-align: center;
+}
+
+/* Icons in cards */
+.feature-icon {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Admin dashboard */
+.role-badge {
+    font-size: 0.75rem;
+    padding: 0.35em 0.65em;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1030;
+        padding-top: 3.5rem;
+        overflow-y: auto;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+    
+    .sidebar.show {
+        transform: translateX(0);
+    }
+    
+    .content-wrapper {
+        margin-left: 0 !important;
+    }
+}
+
+/* Dark mode adjustments */
+[data-bs-theme="dark"] .card {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.2);
+}
+
+[data-bs-theme="dark"] .website-preview,
+[data-bs-theme="dark"] .color-preview {
+    border-color: #444;
+}
+
+/* Website editor specific styles */
+.website-editor-header {
+    position: sticky;
+    top: 0;
+    z-index: 990;
+    padding: 1rem;
+    background-color: var(--bs-body-bg);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.edit-mode-toggle .nav-link {
+    color: var(--bs-body-color);
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+}
+
+.edit-mode-toggle .nav-link.active {
+    background-color: var(--bs-primary);
+    color: #fff;
+}
+
+/* Custom utility classes */
+.fs-sm {
+    font-size: 0.875rem;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.text-truncate-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.min-h-200 {
+    min-height: 200px;
+}

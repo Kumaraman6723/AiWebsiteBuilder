@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ website.title }}</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-color: {{ website.content.colors.primary }};
+            --secondary-color: {{ website.content.colors.secondary }};
+            --accent-color: {{ website.content.colors.accent }};
+            --text-color: {{ website.content.colors.text }};
+            --bg-color: {{ website.content.colors.background }};
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--primary-color);
+        }
+        
+        .navbar {
+            background-color: var(--primary-color);
+        }
+        
+        .navbar-brand, .navbar-nav .nav-link {
+            color: var(--bg-color);
+        }
+        
+        .navbar-toggler {
+            border-color: var(--bg-color);
+        }
+        
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: var(--bg-color);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+            color: var(--bg-color);
+        }
+        
+        .btn-accent {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: var(--bg-color);
+        }
+        
+        .section {
+            padding: 80px 0;
+        }
+        
+        .hero-section {
+            background-color: var(--primary-color);
+            color: var(--bg-color);
+            padding: 100px 0;
+        }
+        
+        .hero-section h1, .hero-section h2 {
+            color: var(--bg-color);
+        }
+        
+        .feature-card {
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            height: 100%;
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .service-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .testimonial-card {
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid var(--accent-color);
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .contact-section {
+            background-color: var(--secondary-color);
+            color: var(--bg-color);
+            padding: 80px 0;
+        }
+        
+        .contact-section h2 {
+            color: var(--bg-color);
+        }
+        
+        footer {
+            background-color: var(--primary-color);
+            color: var(--bg-color);
+            padding: 30px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">{{ website.title }}</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#testimonials">Testimonials</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="home">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h1 class="display-4 fw-bold mb-4">{{ website.content.hero.headline }}</h1>
+                    <p class="lead mb-5">{{ website.content.hero.subheading }}</p>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                        <button type="button" class="btn btn-accent btn-lg px-4 me-md-2">Get Started</button>
+                        <button type="button" class="btn btn-outline-light btn-lg px-4">Learn More</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section" id="about">
+        <div class="container">
+            <div class="row justify-content-center mb-5">
+                <div class="col-lg-8 text-center">
+                    <h2 class="mb-4">{{ website.content.about.title }}</h2>
+                    <p class="lead mb-4">{{ website.content.about.description }}</p>
+                    <h5>Our Mission</h5>
+                    <p>{{ website.content.about.mission }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="section bg-light" id="services">
+        <div class="container">
+            <div class="row text-center mb-5">
+                <div class="col-lg-8 mx-auto">
+                    <h2>Our Services</h2>
+                    <p class="lead">We provide the following services to meet your needs</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                {% for service in website.content.services %}
+                <div class="col-md-4">
+                    <div class="feature-card bg-white text-center">
+                        <div class="service-icon">
+                            <i class="bi bi-{{ service.icon }}"></i>
+                        </div>
+                        <h4>{{ service.title }}</h4>
+                        <p>{{ service.description }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section" id="features">
+        <div class="container">
+            <div class="row text-center mb-5">
+                <div class="col-lg-8 mx-auto">
+                    <h2>Key Features</h2>
+                    <p class="lead">What makes us stand out from the competition</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                {% for feature in website.content.features %}
+                <div class="col-md-6">
+                    <div class="d-flex">
+                        <div class="me-3 mt-1">
+                            <i class="bi bi-check-circle-fill" style="color: var(--primary-color); font-size: 1.5rem;"></i>
+                        </div>
+                        <div>
+                            <h4>{{ feature.title }}</h4>
+                            <p>{{ feature.description }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="section bg-light" id="testimonials">
+        <div class="container">
+            <div class="row text-center mb-5">
+                <div class="col-lg-8 mx-auto">
+                    <h2>Testimonials</h2>
+                    <p class="lead">What our clients say about us</p>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    {% for testimonial in website.content.testimonials %}
+                    <div class="testimonial-card bg-white">
+                        <div class="mb-3">
+                            <i class="bi bi-quote" style="color: var(--accent-color); font-size: 2rem;"></i>
+                        </div>
+                        <p class="lead mb-4">{{ testimonial.quote }}</p>
+                        <div class="d-flex align-items-center">
+                            <div class="me-3">
+                                <i class="bi bi-person-circle" style="font-size: 3rem; color: var(--secondary-color);"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-0">{{ testimonial.author }}</h5>
+                                <p class="text-muted">{{ testimonial.position }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h2>{{ website.content.contact.title }}</h2>
+                    <p class="lead mb-4">{{ website.content.contact.message }}</p>
+                    <div class="d-flex mb-3">
+                        <div class="me-3">
+                            <i class="bi bi-geo-alt-fill" style="font-size: 1.5rem;"></i>
+                        </div>
+                        <div>
+                            <h5>Address</h5>
+                            <p>123 Business Street, City, Country</p>
+                        </div>
+                    </div>
+                    <div class="d-flex mb-3">
+                        <div class="me-3">
+                            <i class="bi bi-envelope-fill" style="font-size: 1.5rem;"></i>
+                        </div>
+                        <div>
+                            <h5>Email</h5>
+                            <p>info@example.com</p>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="me-3">
+                            <i class="bi bi-telephone-fill" style="font-size: 1.5rem;"></i>
+                        </div>
+                        <div>
+                            <h5>Phone</h5>
+                            <p>(123) 456-7890</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-body p-4">
+                            <h3 class="card-title mb-4" style="color: var(--primary-color);">Send us a message</h3>
+                            <form>
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="name" placeholder="Your name">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" placeholder="your@email.com">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="message" class="form-label">Message</label>
+                                    <textarea class="form-control" id="message" rows="4" placeholder="Your message"></textarea>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary">Send Message</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h3>{{ website.title }}</h3>
+                    <p>Your trusted partner for quality services.</p>
+                    <div class="social-icons">
+                        <a href="#" class="text-white me-2"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-white me-2"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="text-white me-2"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="text-white"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#home" class="text-white text-decoration-none">Home</a></li>
+                        <li><a href="#about" class="text-white text-decoration-none">About</a></li>
+                        <li><a href="#services" class="text-white text-decoration-none">Services</a></li>
+                        <li><a href="#contact" class="text-white text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h5>Newsletter</h5>
+                    <p>Subscribe to our newsletter for updates.</p>
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" placeholder="Your email">
+                        <button class="btn btn-accent" type="button">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4" style="border-color: rgba(255, 255, 255, 0.2);">
+            <div class="text-center">
+                <p class="mb-0">© 2023 {{ website.title }}. All rights reserved.</p>
+                <p class="small mt-2 mb-0">Created with AI Website Builder</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu after clicking
+                    if (document.querySelector('.navbar-collapse.show')) {
+                        document.querySelector('.navbar-toggler').click();
+                    }
+                });
+            });
+            
+            // Active navigation highlighting
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            window.addEventListener('scroll', function() {
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    
+                    if (pageYOffset >= (sectionTop - 200)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
