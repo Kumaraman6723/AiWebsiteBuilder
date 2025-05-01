@@ -6,7 +6,7 @@ SECRET_KEY = os.environ.get("SESSION_SECRET", "your-secret-key-for-development")
 DEBUG = True
 
 # MongoDB configuration
-MONGO_URI = os.environ.get("MONGO_URI", "mongodb+srv://bloxlink19:Jadoo1234@cluster0.egr8f.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+MONGO_URI = os.environ.get("MONGO_URI", "")
 DATABASE_NAME = "website_builder"
 
 # JWT configuration
@@ -15,7 +15,7 @@ JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=1)
 JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=30)
 
 # OpenAI configuration
-OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY","")
 
 # User roles
 ROLES = {

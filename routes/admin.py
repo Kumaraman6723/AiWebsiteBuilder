@@ -28,21 +28,49 @@ def index():
 
 # User management endpoints
 
-@admin_bp.route('/users', methods=['GET'])
+@admin_bp.route('/users', methods=['GET', 'POST'])
 @admin_required()
 def get_users():
     """Get all users endpoint"""
     # Get all users
     users = User.get_all()
     
-    if request.is_json:
-        return get_success_response({'users': users})
-    else:
-        # Get roles for dropdown
-        roles = Role.get_all()
-        # Get current user for navigation
-        current_user = User.get_by_id(session['user_id'])
-        return render_template('admin/users.html', users=users, roles=roles, user=current_user)
+    if request.method == 'GET':
+        if request.is_json:
+            return get_success_response({'users': users})
+        else:
+            # Get roles for dropdown
+            roles = Role.get_all()
+            # Get current user for navigation
+            current_user = User.get_by_id(session['user_id'])
+            return render_template('admin/users.html', users=users, roles=roles, user=current_user)
+    
+    if request.method == 'POST':
+        # Get form data
+        data = request.get_json()
+        
+        # Extract user data
+        email = data.get('email')
+        password = data.get('password')
+        name = data.get('name')
+        role_id = data.get('role_id', 'viewer')
+        
+        # Validate input
+        if not email or not password or not name:
+            return get_error_response('Email, password, and name are required')
+        
+        # Create user
+        user = User.create(
+            email=email,
+            password=password,
+            name=name,
+            role_id=role_id
+        )
+        
+        if not user:
+            return get_error_response('User with this email already exists')
+        
+        return get_success_response({'user': user}, 'User created successfully', 201)
 
 @admin_bp.route('/users/<user_id>', methods=['GET', 'PUT', 'DELETE'])
 @admin_required()

@@ -291,36 +291,36 @@
                                                             <div class="col-md-6">
                                                                 <label for="primaryColor" class="form-label">Primary Color</label>
                                                                 <div class="input-group">
-                                                                    <input type="color" class="form-control form-control-color" id="primaryColor" name="colors.primary" value="{{ website.content.colors.primary }}" title="Choose primary color">
-                                                                    <input type="text" class="form-control" value="{{ website.content.colors.primary }}" id="primaryColorText">
+                                                                    <input type="color" class="form-control form-control-color" id="primaryColor" name="colors.primary" value="{% if website.content.colors %}{{ website.content.colors.primary }}{% elif website.style and website.style.colors %}{{ website.style.colors.primary }}{% else %}#007bff{% endif %}" title="Choose primary color">
+                                                                    <input type="text" class="form-control" value="{% if website.content.colors %}{{ website.content.colors.primary }}{% elif website.style and website.style.colors %}{{ website.style.colors.primary }}{% else %}#007bff{% endif %}" id="primaryColorText">
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <label for="secondaryColor" class="form-label">Secondary Color</label>
                                                                 <div class="input-group">
-                                                                    <input type="color" class="form-control form-control-color" id="secondaryColor" name="colors.secondary" value="{{ website.content.colors.secondary }}" title="Choose secondary color">
-                                                                    <input type="text" class="form-control" value="{{ website.content.colors.secondary }}" id="secondaryColorText">
+                                                                    <input type="color" class="form-control form-control-color" id="secondaryColor" name="colors.secondary" value="{% if website.content.colors %}{{ website.content.colors.secondary }}{% elif website.style and website.style.colors %}{{ website.style.colors.secondary }}{% else %}#6c757d{% endif %}" title="Choose secondary color">
+                                                                    <input type="text" class="form-control" value="{% if website.content.colors %}{{ website.content.colors.secondary }}{% elif website.style and website.style.colors %}{{ website.style.colors.secondary }}{% else %}#6c757d{% endif %}" id="secondaryColorText">
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <label for="accentColor" class="form-label">Accent Color</label>
                                                                 <div class="input-group">
-                                                                    <input type="color" class="form-control form-control-color" id="accentColor" name="colors.accent" value="{{ website.content.colors.accent }}" title="Choose accent color">
-                                                                    <input type="text" class="form-control" value="{{ website.content.colors.accent }}" id="accentColorText">
+                                                                    <input type="color" class="form-control form-control-color" id="accentColor" name="colors.accent" value="{% if website.content.colors %}{{ website.content.colors.accent }}{% elif website.style and website.style.colors %}{{ website.style.colors.accent }}{% else %}#28a745{% endif %}" title="Choose accent color">
+                                                                    <input type="text" class="form-control" value="{% if website.content.colors %}{{ website.content.colors.accent }}{% elif website.style and website.style.colors %}{{ website.style.colors.accent }}{% else %}#28a745{% endif %}" id="accentColorText">
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <label for="textColor" class="form-label">Text Color</label>
                                                                 <div class="input-group">
-                                                                    <input type="color" class="form-control form-control-color" id="textColor" name="colors.text" value="{{ website.content.colors.text }}" title="Choose text color">
-                                                                    <input type="text" class="form-control" value="{{ website.content.colors.text }}" id="textColorText">
+                                                                    <input type="color" class="form-control form-control-color" id="textColor" name="colors.text" value="{% if website.content.colors %}{{ website.content.colors.text }}{% elif website.style and website.style.colors %}{{ website.style.colors.text }}{% else %}#333333{% endif %}" title="Choose text color">
+                                                                    <input type="text" class="form-control" value="{% if website.content.colors %}{{ website.content.colors.text }}{% elif website.style and website.style.colors %}{{ website.style.colors.text }}{% else %}#333333{% endif %}" id="textColorText">
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <label for="backgroundColor" class="form-label">Background Color</label>
                                                                 <div class="input-group">
-                                                                    <input type="color" class="form-control form-control-color" id="backgroundColor" name="colors.background" value="{{ website.content.colors.background }}" title="Choose background color">
-                                                                    <input type="text" class="form-control" value="{{ website.content.colors.background }}" id="backgroundColorText">
+                                                                    <input type="color" class="form-control form-control-color" id="backgroundColor" name="colors.background" value="{% if website.content.colors %}{{ website.content.colors.background }}{% elif website.style and website.style.colors %}{{ website.style.colors.background }}{% else %}#ffffff{% endif %}" title="Choose background color">
+                                                                    <input type="text" class="form-control" value="{% if website.content.colors %}{{ website.content.colors.background }}{% elif website.style and website.style.colors %}{{ website.style.colors.background }}{% else %}#ffffff{% endif %}" id="backgroundColorText">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -333,13 +333,13 @@
                                                         <h5 class="mb-0">Color Preview</h5>
                                                     </div>
                                                     <div class="card-body">
-                                                        <div class="color-preview p-3 rounded" id="colorPreview" style="background-color: {{ website.content.colors.background }};">
-                                                            <h3 style="color: {{ website.content.colors.primary }};">Heading Text</h3>
-                                                            <p style="color: {{ website.content.colors.text }};">This is a preview of your website's color scheme. The text will look like this, and buttons will use your primary and accent colors.</p>
+                                                        <div class="color-preview p-3 rounded" id="colorPreview" style="background-color: {% if website.content.colors %}{{ website.content.colors.background }}{% elif website.style and website.style.colors %}{{ website.style.colors.background }}{% else %}#ffffff{% endif %};">
+                                                            <h3 style="color: {% if website.content.colors %}{{ website.content.colors.primary }}{% elif website.style and website.style.colors %}{{ website.style.colors.primary }}{% else %}#007bff{% endif %};">Heading Text</h3>
+                                                            <p style="color: {% if website.content.colors %}{{ website.content.colors.text }}{% elif website.style and website.style.colors %}{{ website.style.colors.text }}{% else %}#333333{% endif %};">This is a preview of your website's color scheme. The text will look like this, and buttons will use your primary and accent colors.</p>
                                                             <div class="mt-3">
-                                                                <button class="btn" style="background-color: {{ website.content.colors.primary }}; color: {{ website.content.colors.background }};">Primary Button</button>
-                                                                <button class="btn" style="background-color: {{ website.content.colors.secondary }}; color: {{ website.content.colors.background }};">Secondary Button</button>
-                                                                <button class="btn" style="background-color: {{ website.content.colors.accent }}; color: {{ website.content.colors.background }};">Accent Button</button>
+                                                                <button class="btn" style="background-color: {% if website.content.colors %}{{ website.content.colors.primary }}{% elif website.style and website.style.colors %}{{ website.style.colors.primary }}{% else %}#007bff{% endif %}; color: {% if website.content.colors %}{{ website.content.colors.background }}{% elif website.style and website.style.colors %}{{ website.style.colors.background }}{% else %}#ffffff{% endif %};">Primary Button</button>
+                                                                <button class="btn" style="background-color: {% if website.content.colors %}{{ website.content.colors.secondary }}{% elif website.style and website.style.colors %}{{ website.style.colors.secondary }}{% else %}#6c757d{% endif %}; color: {% if website.content.colors %}{{ website.content.colors.background }}{% elif website.style and website.style.colors %}{{ website.style.colors.background }}{% else %}#ffffff{% endif %};">Secondary Button</button>
+                                                                <button class="btn" style="background-color: {% if website.content.colors %}{{ website.content.colors.accent }}{% elif website.style and website.style.colors %}{{ website.style.colors.accent }}{% else %}#28a745{% endif %}; color: {% if website.content.colors %}{{ website.content.colors.background }}{% elif website.style and website.style.colors %}{{ website.style.colors.background }}{% else %}#ffffff{% endif %};">Accent Button</button>
                                                             </div>
                                                         </div>
                                                         <div class="d-grid mt-3">

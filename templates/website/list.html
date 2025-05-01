@@ -92,9 +92,9 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="website-preview mb-3">
-                                        <div class="website-preview-content p-3 rounded" style="background-color: {{ website.content.colors.background }}; height: 120px; overflow: hidden;">
-                                            <h4 style="color: {{ website.content.colors.primary }};">{{ website.content.hero.headline|truncate(30) }}</h4>
-                                            <p style="color: {{ website.content.colors.text }};">{{ website.content.hero.subheading|truncate(80) }}</p>
+                                        <div class="website-preview-content p-3 rounded" style="background-color: {% if website.content.colors %}{{ website.content.colors.background }}{% elif website.style and website.style.colors %}{{ website.style.colors.background }}{% else %}#ffffff{% endif %}; height: 120px; overflow: hidden;">
+                                            <h4 style="color: {% if website.content.colors %}{{ website.content.colors.primary }}{% elif website.style and website.style.colors %}{{ website.style.colors.primary }}{% else %}#000000{% endif %};">{{ website.content.hero.heading|default(website.content.hero.headline, true)|truncate(30) }}</h4>
+                                            <p style="color: {% if website.content.colors %}{{ website.content.colors.text }}{% elif website.style and website.style.colors %}{{ website.style.colors.text }}{% else %}#333333{% endif %};">{{ website.content.hero.subheading|truncate(80) }}</p>
                                         </div>
                                     </div>
                                     <p class="text-muted mb-0 fs-sm">
